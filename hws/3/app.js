@@ -32,11 +32,9 @@
 • Реализовать все с помощью async/await, без цепочек then.
 */
 
-import {
-  setInitialLikeHistoryInLS,
-  getLikeHistoryFromLS,
-  updateLikeHistoryInLS,
-} from "./storage.js";
+import { getLikeHistoryFromLS, updateLikeHistoryInLS } from "./storage.js";
+
+const historyLS = getLikeHistoryFromLS() || [];
 
 const APIkey = "";
 //const APIkey = "";
@@ -92,7 +90,6 @@ function renderRandomImage(randomImage) {
   containerEl.append(likeCounterEl);
 
   // проверка, была ли ранее добавлена эта картинка в понравившиеся
-  const historyLS = getLikeHistoryFromLS() || [];
   const wasLiked = historyLS.some((img) => img.id === randomImage.id);
 
   if (wasLiked) {
@@ -119,7 +116,6 @@ function renderRandomImage(randomImage) {
       randomImage.likes++;
 
       // записать в LS
-      const historyLS = getLikeHistoryFromLS() || [];
       historyLS.push(randomImage);
       updateLikeHistoryInLS(historyLS);
 
@@ -139,7 +135,6 @@ function renderRandomImage(randomImage) {
       randomImage.likes--;
 
       // удалить из LS разонравившуюся img
-      const historyLS = getLikeHistoryFromLS();
       const index = historyLS.indexOf(randomImage);
       historyLS.splice(index, 1);
       updateLikeHistoryInLS(historyLS);
